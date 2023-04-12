@@ -1,7 +1,6 @@
 {
   "name": "villa-restaurant-messenger-chat-bot",
   "version": "1.0.0",
-  "type": "module",
   "description": "\"# villa-restaurant-messenger-chat-bot\"",
   "main": "index.js",
   "scripts": {
