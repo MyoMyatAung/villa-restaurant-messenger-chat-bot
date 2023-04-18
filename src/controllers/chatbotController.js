@@ -3,20 +3,28 @@ require("dotenv").config();
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 
 exports.postWebhook = (req, res) => {
+  // Parse the request body from the POST
   let body = req.body;
 
-  console.log(`\u{1F7EA} Received webhook:`);
-  console.dir(body, { depth: null });
-  // Send a 200 OK response if this is a page webhook
+  // Check the webhook event is from a Page subscription
+  if (body.object === 'page') {
 
-  if (body.object === "page") {
-    // Returns a '200 OK' response to all requests
-    body.entry.forEach(entry => {
+    // Iterate over each entry - there may be multiple if batched
+    body.entry.forEach(function (entry) {
+
+      // Gets the body of the webhook event
       let webhook_event = entry.messaging[0];
       console.log(webhook_event);
+
+      // Get the sender PSID
+      let sender_psid = webhook_event.sender.id;
+      console.log('Sender PSID: ' + sender_psid);
+
     });
-    res.status(200).send("EVENT_RECEIVED");
-    // Determine which webhooks were triggered and get sender PSIDs and locale, message content and more.
+
+    // Return a '200 OK' response to all events
+    res.status(200).send('EVENT_RECEIVED');
+
   } else {
     // Return a '404 Not Found' if event is not from a page subscription
     res.sendStatus(404);
@@ -44,4 +52,19 @@ exports.getWebhook = (req, res) => {
       res.sendStatus(403);
     }
   }
+}
+
+// Handles messages events
+function handleMessage(sender_psid, received_message) {
+
+}
+
+// Handles messaging_postbacks events
+function handlePostback(sender_psid, received_postback) {
+
+}
+
+// Sends response messages via the Send API
+function callSendAPI(sender_psid, response) {
+
 }
