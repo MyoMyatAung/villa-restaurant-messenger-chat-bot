@@ -6,6 +6,7 @@ const { postWebhook, getWebhook } = require("../controllers/chatbotController");
 
 let initWebRoutes = (app) => {
   router.get("/", getHomePage);
+  router.get("/greeting", getHomePage);
   router.post("/webhook", postWebhook);
   router.get("/webhook", getWebhook);
 
