@@ -1,4 +1,8 @@
+require("dotenv").config();
+
 const request = require("request");
+
+const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
 
 exports.getFacebookUserName = (sender_psid) => {
   return new Promise((resolve, reject) => {
