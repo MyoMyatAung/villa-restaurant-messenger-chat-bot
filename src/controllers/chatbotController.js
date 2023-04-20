@@ -1,6 +1,8 @@
-const request = require("request");
-
 require("dotenv").config();
+
+const request = require("request");
+const { getFacebookUserName } = require("../services/chatBotService");
+
 
 const MY_VERIFY_TOKEN = process.env.MY_VERIFY_TOKEN;
 const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
@@ -112,7 +114,7 @@ function handleMessage(sender_psid, received_message) {
 }
 
 // Handles messaging_postbacks events
-function handlePostback(sender_psid, received_postback) {
+async function handlePostback(sender_psid, received_postback) {
   let response;
 
   // Get the payload for the postback
@@ -127,7 +129,8 @@ function handlePostback(sender_psid, received_postback) {
       response = { "text": "Oops, try sending another image." }
       break;
     case "GET_STARTED":
-      response = { "text": "Hi there" }
+      const username = await getFacebookUserName(sender_psid);
+      response = { "text": `Hello ${username}! How can I help you?` }
       break;
 
     default:
